@@ -2,30 +2,36 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 
-//mongoose
+// mongoose
 const mongoose = require('mongoose');
-//Middleware de json
-app.use(express.json())
 
-//importacion de rutas
-const userRoutes = require('./routes/userRouter')
+// Middleware de json
+app.use(express.json());
 
-//coneccion a DB
-const dbConcetion = async()=>{
+// importación de rutas
+const userRoutes = require('./routes/userRouter');
+const petRoutes = require('./routes/petRouter');
+
+// conexión a DB
+const dbConnection = async () => {
     try {
-        mongoose.connect(process.env.DB_CONECTION);
-        console.log('coneccion a DB con exito!!!')
+        await mongoose.connect(process.env.DB_CONECTION, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.log('conexión a DB con éxito!!!');
     } catch (error) {
-        console.log(error)
-        throw new Error('Error al concetar con DB')
+        console.log(error);
+        throw new Error('Error al conectar con DB');
     }
 };
-dbConcetion();
+dbConnection();
 
-//uso de rutas
-app.use('/',userRoutes)
+// uso de rutas
+app.use('/', userRoutes);
+app.use('/', petRoutes);
 
-//configuracion del puerto
-app.listen(process.env.PORT, ()=>{
-    console.log(`el puerto ${process.env.PORT} funciona bien...`)
+// configuración del puerto
+app.listen(process.env.PORT, () => {
+    console.log(`El puerto ${process.env.PORT} funciona bien...`);
 });
