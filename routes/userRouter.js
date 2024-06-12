@@ -1,13 +1,16 @@
-const {Router} = require('express');
-const {addUser, getAllUsers, getUserById} = require('../controllers/userController');
+const { Router } = require('express');
+const { addUser, getAllUsers, getUserById, updateUser, deleteUser } = require('../controllers/userController');
 const route = Router();
 
-//agregar nuevo usuario
+// Agregar nuevo usuario
 route.post('/users', addUser);
-//consultar usuarios
-route.get('/users', getAllUsers)
-// buscar por id
-route.get('/users/:id',getUserById)
-
+// Editar usuario
+route.patch('/users/:id', updateUser);  // Corrección del error tipográfico
+// Eliminar usuario
+route.delete('/users/:id', deleteUser);
+// Consultar usuarios
+route.get('/users', getAllUsers);
+// Buscar por ID
+route.get('/users/:id', getUserById);
 
 module.exports = route;

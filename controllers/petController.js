@@ -1,5 +1,4 @@
 const { Pet } = require('../models/Pet');
-const { User } = require('../models/Users');
 
 const addPet = async (request, response) => {
     try {
@@ -38,4 +37,37 @@ const getPetsByOwnerId = async (request, response) => {
     }
 };
 
-module.exports = { addPet, getAllPets, getPetsByOwnerId };
+const updatePet = async (request, response) => {
+    const { id } = request.params;
+    const { name, type, age, ownerId } = request.body;
+
+    try {
+        const updatedPet = await Pet.findByIdAndUpdate(id, { name, type, age, owner: ownerId }, { new: true });
+
+        if (!updatedPet) {
+            return response.status(404).json({ mensaje: 'Mascota no encontrada' });
+        }
+
+        response.status(200).json({ mensaje: 'Mascota actualizada con éxito', pet: updatedPet });
+    } catch (error) {
+        response.status(500).json({ mensaje: error.message });
+    }
+};
+
+const deletePet = async (request, response) => {
+    const { id } = request.params;
+
+    try {
+        const deletedPet = await Pet.findByIdAndDelete(id);
+
+        if (!deletedPet) {
+            return response.status(404).json({ mensaje: 'Mascota no encontrada' });
+        }
+
+        response.status(200).json({ mensaje: 'Mascota eliminada con éxito' });
+    } catch (error) {
+        response.status(500).json({ mensaje: error.message });
+    }
+};
+
+module.exports = { addPet, getAllPets, getPetsByOwnerId, updatePet, deletePet };

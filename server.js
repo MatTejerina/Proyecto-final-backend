@@ -1,12 +1,15 @@
 const express = require('express');
 const app = express();
 require('dotenv').config();
+const cors = require('cors');
 
 // mongoose
 const mongoose = require('mongoose');
 
 // Middleware de json
 app.use(express.json());
+// cors
+app.use(cors());
 
 // importación de rutas
 const userRoutes = require('./routes/userRouter');
@@ -15,14 +18,10 @@ const petRoutes = require('./routes/petRouter');
 // conexión a DB
 const dbConnection = async () => {
     try {
-        await mongoose.connect(process.env.DB_CONECTION, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-        console.log('conexión a DB con éxito!!!');
+        await mongoose.connect(process.env.DB_CONECTION);
+        console.log('Conexión a DB con éxito!!!');
     } catch (error) {
-        console.log(error);
-        throw new Error('Error al conectar con DB');
+        console.error('Error al conectar con la base de datos:', error);
     }
 };
 dbConnection();
