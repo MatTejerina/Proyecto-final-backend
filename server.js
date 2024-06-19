@@ -2,8 +2,6 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const cors = require('cors');
-
-// mongoose
 const mongoose = require('mongoose');
 
 // Middleware de json

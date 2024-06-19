@@ -2,11 +2,12 @@ const { Pet } = require('../models/Pet');
 
 const addPet = async (request, response) => {
     try {
-        const { name, type, age, ownerId } = request.body;
+        const { name, type, race, age, ownerId } = request.body;
 
         const newPet = new Pet({
             name,
             type,
+            race,
             age,
             owner: ownerId
         });
@@ -39,10 +40,10 @@ const getPetsByOwnerId = async (request, response) => {
 
 const updatePet = async (request, response) => {
     const { id } = request.params;
-    const { name, type, age, ownerId } = request.body;
+    const { name, type, race, age, ownerId } = request.body;
 
     try {
-        const updatedPet = await Pet.findByIdAndUpdate(id, { name, type, age, owner: ownerId }, { new: true });
+        const updatedPet = await Pet.findByIdAndUpdate(id, { name, type, race, age, owner: ownerId }, { new: true });
 
         if (!updatedPet) {
             return response.status(404).json({ mensaje: 'Mascota no encontrada' });
