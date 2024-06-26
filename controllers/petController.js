@@ -37,6 +37,15 @@ const getPetsByOwnerId = async (request, response) => {
         response.status(500).json({ mensaje: 'Error al obtener mascotas del usuario' });
     }
 };
+const getPetsByUserId = async (req, res) => {
+    const userId = req.params.userId;
+    try {
+      const pets = await Pet.find({ owner: userId });
+      res.status(200).json(pets);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
 
 const updatePet = async (request, response) => {
     const { id } = request.params;
@@ -71,4 +80,4 @@ const deletePet = async (request, response) => {
     }
 };
 
-module.exports = { addPet, getAllPets, getPetsByOwnerId, updatePet, deletePet };
+module.exports = { addPet, getAllPets, getPetsByOwnerId, updatePet, deletePet, getPetsByUserId };

@@ -9,6 +9,7 @@ const userSchema = new Schema({
     phone: String,
     password: String,
     isAdmin: Boolean,
+    pets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Pet' }]
 });
 
 const User = model('User', userSchema);

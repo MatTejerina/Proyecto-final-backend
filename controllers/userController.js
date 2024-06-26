@@ -83,14 +83,14 @@ const deleteUser = async (request, response) => {
     }
 };
 
-const getAllUsers = async (request, response) => {
-    try {
-        const users = await User.find({});
-        response.status(200).json(users);
-    } catch (error) {
-        response.status(500).json({ mensaje: 'Error al obtener lista de usuarios' });
-    }
-};
+    const getAllUsers = async (req, res) => {
+        try {
+        const users = await User.find().populate('pets', 'name'); // Popula las mascotas solo con el nombre
+        res.status(200).json(users);
+        } catch (error) {
+        res.status(500).json({ message: error.message });
+        }
+    };
 
 const getUserById = async (request, response) => {
     const { id } = request.params;
