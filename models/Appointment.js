@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const appointmentSchema = new mongoose.Schema({
   pet: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Pet', // Referencia al modelo Pet que representa a la mascota
+    ref: 'Pet',
     required: true,
   },
   veterinarian: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Veterinarian', // Referencia al modelo Veterinarian que representa al veterinario
+    ref: 'Veterinarian', 
     required: true,
   },
   date: {
