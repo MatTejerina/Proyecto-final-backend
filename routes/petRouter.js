@@ -8,7 +8,7 @@ route.post('/pets', addPet);
 route.get('/pets', getAllPets);
 // Obtener mascotas por ID de dueño
 route.get('/pets/owner/:ownerId', getPetsByOwnerId);
-router.get('/pets/:userId', getPetsByUserId);
+route.get('/pets/:userId', getPetsByUserId);
 // Editar mascota
 route.patch('/pets/:id', updatePet);
 // Eliminar mascota

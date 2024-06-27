@@ -46,7 +46,6 @@ const createAppointment = async (req, res) => {
   }
 };
 
-
 // Controlador para obtener citas por veterinario y fecha
 const getAppointmentsByVeterinarianAndDate = async (req, res) => {
   const { veterinarianId, date } = req.params;
@@ -68,7 +67,7 @@ const getAllAppointments = async (req, res) => {
     const appointments = await Appointment.find()
       .populate({
         path: 'pet',
-        populate: { path: 'owner', select: 'name' }
+        populate: { path: 'owner', select: 'firstName lastName' }
       })
       .populate('veterinarian', 'name');
 

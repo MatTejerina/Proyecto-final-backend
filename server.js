@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const app = express();
 require('dotenv').config();
@@ -13,7 +14,7 @@ app.use(cors());
 const userRoutes = require('./routes/userRouter');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const petRoutes = require('./routes/petRouter');
-const vetRoutes = require('./routes/veterinarianRoutes'); 
+const vetRoutes = require('./routes/veterinarianRoutes');
 
 // conexión a DB
 const dbConnection = async () => {
@@ -26,12 +27,11 @@ const dbConnection = async () => {
 };
 dbConnection();
 
-// uso de rutas
+// uso de rutas sin prefijos
 app.use('/', appointmentRoutes);
 app.use('/', userRoutes);
 app.use('/', petRoutes);
 app.use('/', vetRoutes);
-
 
 // configuración del puerto
 app.listen(process.env.PORT, () => {

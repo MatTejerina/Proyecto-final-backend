@@ -1,27 +1,30 @@
-const { Pet } = require('../models/Pet');
+const Pet = require('../models/Pet');
+const User = require('../models/User');
 
-const addPet = async (request, response) => {
+const addPet = async (req, res) => {
     try {
-        const { name, type, race, age, ownerId } = request.body;
-
-        const newPet = new Pet({
-            name,
-            type,
-            race,
-            age,
-            owner: ownerId
-        });
-
-        await newPet.save();
-        response.status(200).json({ mensaje: 'Mascota agregada con éxito' });
+      const { name, type, race, age, ownerId } = req.body;
+      const owner = await User.findById(ownerId);
+      if (!owner) {
+        return res.status(404).json({ message: 'Owner not found' });
+      }
+  
+      const pet = new Pet({ name, type, race, age, owner: ownerId });
+      await pet.save();
+  
+      // Add the pet to the owner's list of pets
+      owner.pets.push(pet._id);
+      await owner.save();
+  
+      res.status(201).json(pet);
     } catch (error) {
-        response.status(500).json({ mensaje: error.message });
+      res.status(400).json({ message: error.message });
     }
-};
+  };
 
 const getAllPets = async (request, response) => {
     try {
-        const pets = await Pet.find({}).populate('owner');
+        const pets = await Pet.find();
         response.status(200).json(pets);
     } catch (error) {
         response.status(500).json({ mensaje: 'Error al obtener lista de mascotas' });

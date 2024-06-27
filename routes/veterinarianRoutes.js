@@ -1,3 +1,4 @@
+// routes/veterinarianRoutes.js
 const express = require('express');
 const { createVeterinarian, getAllVeterinarians } = require('../controllers/veterinarianController');
 const router = express.Router();
