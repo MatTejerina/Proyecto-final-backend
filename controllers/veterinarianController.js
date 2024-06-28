@@ -1,11 +1,11 @@
 const Veterinarian = require('../models/Veterinarian');
 
-const createVeterinarian = async (req, res) => {
+const addVeterinarian = async (req, res) => {
+  const { name, email } = req.body;
   try {
-    const { name } = req.body;
-    const newVeterinarian = new Veterinarian({ name });
-    await newVeterinarian.save();
-    res.status(201).json(newVeterinarian);
+    const newVet = new Veterinarian({ name, email });
+    await newVet.save();
+    res.status(201).json(newVet);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -13,11 +13,11 @@ const createVeterinarian = async (req, res) => {
 
 const getAllVeterinarians = async (req, res) => {
   try {
-    const veterinarians = await Veterinarian.find();
-    res.json(veterinarians);
+    const vets = await Veterinarian.find();
+    res.status(200).json(vets);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = { createVeterinarian, getAllVeterinarians };
+module.exports = { addVeterinarian, getAllVeterinarians };

@@ -67,7 +67,7 @@ const getAllAppointments = async (req, res) => {
     const appointments = await Appointment.find()
       .populate({
         path: 'pet',
-        populate: { path: 'owner', select: 'firstName lastName' }
+        populate: { path: 'owner', select: 'firstName lastName dni' } // Agregar 'dni' aquí
       })
       .populate('veterinarian', 'name');
 
@@ -81,7 +81,6 @@ const getAllAppointments = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 
 const updateAppointment = async (req, res) => {

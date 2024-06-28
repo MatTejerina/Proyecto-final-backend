@@ -31,15 +31,16 @@ const getAllPets = async (request, response) => {
     }
 };
 
-const getPetsByOwnerId = async (request, response) => {
-    const { ownerId } = request.params;
+const getPetsByOwnerId = async (req, res) => {
+    const { ownerId } = req.params;
     try {
-        const pets = await Pet.find({ owner: ownerId });
-        response.status(200).json(pets);
+      const pets = await Pet.find({ owner: ownerId });
+      res.status(200).json(pets);
     } catch (error) {
-        response.status(500).json({ mensaje: 'Error al obtener mascotas del usuario' });
+      res.status(500).json({ message: error.message });
     }
-};
+  };
+
 const getPetsByUserId = async (req, res) => {
     const userId = req.params.userId;
     try {

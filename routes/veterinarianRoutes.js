@@ -1,9 +1,10 @@
-// routes/veterinarianRoutes.js
-const express = require('express');
-const { createVeterinarian, getAllVeterinarians } = require('../controllers/veterinarianController');
-const router = express.Router();
+const { Router } = require('express');
+const { addVeterinarian, getAllVeterinarians } = require('../controllers/veterinarianController');
+const route = Router();
 
-router.post('/veterinarians', createVeterinarian);
-router.get('/veterinarians', getAllVeterinarians);
+// Agregar nuevo veterinario
+route.post('/veterinarians', addVeterinarian);
+// Obtener todos los veterinarios
+route.get('/veterinarians', getAllVeterinarians);
 
-module.exports = router;
+module.exports = route;
