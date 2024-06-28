@@ -29,7 +29,7 @@ const loginUser = async (request, response) => {
     response.status(200).json({ accessToken });
 
   } catch (error) {
-
+    response.status(500).json({ message: error.message })
   }
 }
 
