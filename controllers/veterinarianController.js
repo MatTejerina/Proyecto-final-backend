@@ -1,9 +1,9 @@
 const Veterinarian = require('../models/Veterinarian');
 
 const addVeterinarian = async (req, res) => {
-  const { name, email } = req.body;
+  const { name, lastName } = req.body;
   try {
-    const newVet = new Veterinarian({ name, email });
+    const newVet = new Veterinarian({ name, lastName });
     await newVet.save();
     res.status(201).json(newVet);
   } catch (error) {

@@ -5,7 +5,7 @@ const route = Router();
 // Agregar nuevo usuario
 route.post('/users', addUser);
 // Editar usuario
-route.patch('/users/:id', updateUser);  // Corrección del error tipográfico
+route.patch('/users/:id', updateUser);
 // Eliminar usuario
 route.delete('/users/:id', deleteUser);
 // Consultar usuarios

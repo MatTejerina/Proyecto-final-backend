@@ -12,7 +12,6 @@ const addPet = async (req, res) => {
       const pet = new Pet({ name, type, race, age, owner: ownerId });
       await pet.save();
   
-      // Add the pet to the owner's list of pets
       owner.pets.push(pet._id);
       await owner.save();
   
