@@ -1,6 +1,9 @@
 const Pet = require('../models/Pet');
 const User = require('../models/User');
 
+const mongoose = require('mongoose');
+const Appointment = require('../models/Appointment');
+
 const addPet = async (req, res) => {
     try {
       const { name, type, race, age, ownerId } = req.body;
@@ -68,19 +71,34 @@ const updatePet = async (request, response) => {
 };
 
 const deletePet = async (request, response) => {
-    const { id } = request.params;
+  const { id } = request.params;
 
-    try {
-        const deletedPet = await Pet.findByIdAndDelete(id);
-
-        if (!deletedPet) {
-            return response.status(404).json({ mensaje: 'Mascota no encontrada' });
-        }
-
-        response.status(200).json({ mensaje: 'Mascota eliminada con éxito' });
-    } catch (error) {
-        response.status(500).json({ mensaje: error.message });
+  try {
+    // Encontrar la mascota y sus citas asociadas
+    const pet = await Pet.findById(id).populate('appointment');
+    if (!pet) {
+      return response.status(404).json({ mensaje: 'Mascota no encontrada' });
     }
+
+    // Eliminar las citas asociadas
+    if (pet.appointment) {
+      await Appointment.findByIdAndDelete(pet.appointment._id);
+    }
+
+    // Eliminar la mascota
+    await Pet.findByIdAndDelete(id);
+
+    // Eliminar la referencia de la mascota en el usuario
+    const owner = await User.findById(pet.owner);
+    if (owner) {
+      owner.pets.pull(id);
+      await owner.save();
+    }
+
+    response.status(200).json({ mensaje: 'Mascota y citas asociadas eliminadas con éxito' });
+  } catch (error) {
+    response.status(500).json({ mensaje: error.message });
+  }
 };
 
 module.exports = { addPet, getAllPets, getPetsByOwnerId, updatePet, deletePet, getPetsByUserId };
