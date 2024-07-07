@@ -1,4 +1,4 @@
-const { User } = require('../models/Users');
+const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
 const addUser = async (request, response) => {
@@ -38,7 +38,7 @@ const addUser = async (request, response) => {
 
 const updateUser = async (request, response) => {
     const { id } = request.params;
-    const { firstName, lastName, email, address, dni, phone, password } = request.body;
+    const { firstName, lastName, email, address, dni, phone, password, isAdmin } = request.body;
 
     try {
         // si cambia de contraseña, háshearla
@@ -48,6 +48,11 @@ const updateUser = async (request, response) => {
             const salt = bcrypt.genSaltSync(saltRounds);
             const hash = bcrypt.hashSync(password, salt);
             updatedFields.password = hash;
+        }
+
+        // Incluir el campo isAdmin en la actualización si está presente en el request body
+        if (typeof isAdmin !== 'undefined') {
+            updatedFields.isAdmin = isAdmin;
         }
 
         const updatedUser = await User.findByIdAndUpdate(id, updatedFields, { new: true });
@@ -78,12 +83,12 @@ const deleteUser = async (request, response) => {
     }
 };
 
-const getAllUsers = async (request, response) => {
+const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find({});
-        response.status(200).json(users);
+        const users = await User.find().populate('pets', 'name'); // Popula las mascotas solo con el nombre
+        res.status(200).json(users);
     } catch (error) {
-        response.status(500).json({ mensaje: 'Error al obtener lista de usuarios' });
+        res.status(500).json({ message: error.message });
     }
 };
 

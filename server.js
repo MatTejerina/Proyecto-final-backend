@@ -2,21 +2,19 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const cors = require('cors');
-
-// mongoose
 const mongoose = require('mongoose');
 
 // Middleware de json
 app.use(express.json());
 // cors
-
-app.use(cors({ credentials: true }));
+app.use(cors());
 
 // importación de rutas
 const userRoutes = require('./routes/userRouter');
-// const petRoutes = require('./routes/petRouter');
-const authRoutes = require('./routes/authRouter')
+const appointmentRoutes = require('./routes/appointmentRoutes');
+const petRoutes = require('./routes/petRouter');
 const vetRoutes = require('./routes/veterinarianRoutes');
+const authRoutes = require('./routes/authRouter');
 
 // conexión a DB
 const dbConnection = async () => {
@@ -29,11 +27,12 @@ const dbConnection = async () => {
 };
 dbConnection();
 
-// uso de rutas
+// uso de rutas sin prefijos
+app.use('/', appointmentRoutes);
 app.use('/', userRoutes);
-// app.use('/', petRoutes);
-app.use('/', authRoutes);
+app.use('/', petRoutes);
 app.use('/', vetRoutes);
+app.use('/', authRoutes);
 
 // configuración del puerto
 app.listen(process.env.PORT, () => {
