@@ -16,6 +16,7 @@ app.use(cors({ credentials: true }));
 const userRoutes = require('./routes/userRouter');
 // const petRoutes = require('./routes/petRouter');
 const authRoutes = require('./routes/authRouter')
+const vetRoutes = require('./routes/veterinarianRoutes');
 
 // conexión a DB
 const dbConnection = async () => {
@@ -32,6 +33,7 @@ dbConnection();
 app.use('/', userRoutes);
 // app.use('/', petRoutes);
 app.use('/', authRoutes);
+app.use('/', vetRoutes);
 
 // configuración del puerto
 app.listen(process.env.PORT, () => {
