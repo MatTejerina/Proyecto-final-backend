@@ -1,4 +1,4 @@
-const { User } = require('../models/Users');
+const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
 const addUser = async (request, response) => {
@@ -83,12 +83,12 @@ const deleteUser = async (request, response) => {
     }
 };
 
-const getAllUsers = async (request, response) => {
+const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find({});
-        response.status(200).json(users);
+    const users = await User.find().populate('pets', 'name'); // Popula las mascotas solo con el nombre
+    res.status(200).json(users);
     } catch (error) {
-        response.status(500).json({ mensaje: 'Error al obtener lista de usuarios' });
+    res.status(500).json({ message: error.message });
     }
 };
 

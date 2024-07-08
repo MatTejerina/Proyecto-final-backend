@@ -11,9 +11,13 @@ app.use(cors({ credentials: true }));
 
 // importación de rutas
 const userRoutes = require('./routes/userRouter');
+const appointmentRoutes = require('./routes/appointmentRoutes');
 const petRoutes = require('./routes/petRouter');
 const vetRoutes = require('./routes/veterinarianRoutes');
+<<<<<<< HEAD
 const authRoutes = require('./routes/authRouter')
+=======
+>>>>>>> 161d6bd72c78bb7e3e53d1f21984e6e40d7c8b0f
 
 // conexión a DB
 const dbConnection = async () => {
@@ -26,7 +30,8 @@ const dbConnection = async () => {
 };
 dbConnection();
 
-// uso de rutas
+// uso de rutas sin prefijos
+app.use('/', appointmentRoutes);
 app.use('/', userRoutes);
 app.use('/', authRoutes);
 app.use('/', petRoutes);

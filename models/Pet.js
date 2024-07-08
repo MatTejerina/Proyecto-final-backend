@@ -1,13 +1,14 @@
-const { model, Schema } = require('mongoose');
+const mongoose = require('mongoose');
 
-const petSchema = new Schema({
+const petSchema = new mongoose.Schema({
     name: String,
     type: String,
     race: String,
     age: Number,
-    owner: { type: Schema.Types.ObjectId, ref: 'User' },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    appointment: { type: mongoose.Schema.Types.ObjectId, ref: 'Appointment', default: null } // Referencia a la cita
 });
 
-const Pet = model('Pet', petSchema);
+const Pet = mongoose.model('Pet', petSchema);
 
-module.exports = { Pet };
+module.exports = Pet;
