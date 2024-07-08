@@ -38,7 +38,7 @@ const addUser = async (request, response) => {
 
 const updateUser = async (request, response) => {
     const { id } = request.params;
-    const { firstName, lastName, email, address, dni, phone, password } = request.body;
+    const { firstName, lastName, email, address, dni, phone, password, isAdmin } = request.body;
 
     try {
         // si cambia de contraseña, háshearla
@@ -48,6 +48,11 @@ const updateUser = async (request, response) => {
             const salt = bcrypt.genSaltSync(saltRounds);
             const hash = bcrypt.hashSync(password, salt);
             updatedFields.password = hash;
+        }
+
+        // Incluir el campo isAdmin en la actualización si está presente en el request body
+        if (typeof isAdmin !== 'undefined') {
+            updatedFields.isAdmin = isAdmin;
         }
 
         const updatedUser = await User.findByIdAndUpdate(id, updatedFields, { new: true });

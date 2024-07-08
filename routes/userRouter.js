@@ -10,7 +10,7 @@ route.patch('/users/:id', updateUser);  // Corrección del error tipográfico
 // Eliminar usuario
 route.delete('/users/:id', deleteUser);
 // Consultar usuarios
-route.get('/users', tokenValidation, getAllUsers);
+route.get('/users', getAllUsers);
 // Buscar por ID
 route.get('/users/:id', getUserById);
 
