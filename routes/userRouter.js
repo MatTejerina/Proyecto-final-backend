@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const { addUser, getAllUsers, getUserById, updateUser, deleteUser } = require('../controllers/userController');
-const { tokenValidation } = require('../middleware/tokenValidation');
 const route = Router();
 
 // Agregar nuevo usuario

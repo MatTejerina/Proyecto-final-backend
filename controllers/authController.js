@@ -14,7 +14,7 @@ const loginUser = async (request, response) => {
 
     //En memoria de la app  
     const accessToken = jwt.sign({ id: user._id, fistName: user.firstName + user.lastName, isAdmin: user.isAdmin }, process.env.ACCESS_TOKEN_KEY, {
-      expiresIn: '25s'
+      expiresIn: '1h'
     });
 
     //En una cookie de tipo httpOnly
