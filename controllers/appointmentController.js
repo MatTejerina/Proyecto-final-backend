@@ -36,7 +36,7 @@ const createAppointment = async (req, res) => {
 
     res.status(201).json(newAppointment);
   } catch (error) {
-    console.error('Error creando la cita:', error); // Log para el desarrollador
+    console.error('Error creando la cita:', error);
     res.status(500).json({ message: 'Error interno del servidor.' });
   }
 };
