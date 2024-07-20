@@ -1,7 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
-// const bcrypt = require('bcrypt');
 
 const addUser = async (request, response) => {
     try {
@@ -26,7 +25,7 @@ const addUser = async (request, response) => {
         response.status(200).json({ mensaje: 'Usuario creado con éxito' });
 
     } catch (error) {
-        if (error.code === 11000) { // Error de duplicación en Mongoose
+        if (error.code === 11000) {
             if (error.keyPattern && error.keyPattern.dni) {
                 response.status(400).json({ mensaje: 'El DNI ya está registrado' });
             } else if (error.keyPattern && error.keyPattern.email) {
@@ -43,7 +42,6 @@ const updateUser = async (request, response) => {
     const { firstName, lastName, email, address, dni, phone, password, isAdmin } = request.body;
 
     try {
-        // si cambia de contraseña, háshearla
         let updatedFields = { firstName, lastName, email, address, dni, phone };
         if (password) {
             const saltRounds = 10;
@@ -52,7 +50,6 @@ const updateUser = async (request, response) => {
             updatedFields.password = hash;
         }
 
-        // Incluir el campo isAdmin en la actualización si está presente en el request body
         if (typeof isAdmin !== 'undefined') {
             updatedFields.isAdmin = isAdmin;
         }
@@ -87,7 +84,7 @@ const deleteUser = async (request, response) => {
 
 const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find().populate('pets', 'name'); // Popula las mascotas solo con el nombre
+        const users = await User.find().populate('pets', 'name');
         res.status(200).json(users);
     } catch (error) {
         res.status(500).json({ message: error.message });

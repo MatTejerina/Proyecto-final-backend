@@ -6,7 +6,7 @@ const petSchema = new mongoose.Schema({
     race: String,
     age: Number,
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    appointment: { type: mongoose.Schema.Types.ObjectId, ref: 'Appointment', default: null } // Referencia a la cita
+    appointment: { type: mongoose.Schema.Types.ObjectId, ref: 'Appointment', default: null }
 });
 
 const Pet = mongoose.model('Pet', petSchema);

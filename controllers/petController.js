@@ -74,21 +74,17 @@ const deletePet = async (request, response) => {
   const { id } = request.params;
 
   try {
-    // Encontrar la mascota y sus citas asociadas
     const pet = await Pet.findById(id).populate('appointment');
     if (!pet) {
       return response.status(404).json({ mensaje: 'Mascota no encontrada' });
     }
 
-    // Eliminar las citas asociadas
     if (pet.appointment) {
       await Appointment.findByIdAndDelete(pet.appointment._id);
     }
 
-    // Eliminar la mascota
     await Pet.findByIdAndDelete(id);
 
-    // Eliminar la referencia de la mascota en el usuario
     const owner = await User.findById(pet.owner);
     if (owner) {
       owner.pets.pull(id);

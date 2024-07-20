@@ -24,9 +24,7 @@ const getAllVeterinarians = async (req, res) => {
 const deleteVeterinarian = async (req, res) => {
   const vetId = req.params.id;
   try {
-    // Eliminar turnos asociados al veterinario
     await Appointment.deleteMany({ veterinarian: vetId });
-    // Eliminar el veterinario
     await Veterinarian.findByIdAndDelete(vetId);
     res.status(200).json({ message: 'Veterinario y turnos eliminados correctamente' });
   } catch (error) {

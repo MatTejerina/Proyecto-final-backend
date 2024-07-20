@@ -4,6 +4,6 @@ const router = express.Router();
 
 router.post('/veterinarians', addVeterinarian);
 router.get('/veterinarians', getAllVeterinarians);
-router.delete('/veterinarians/:id', deleteVeterinarian); // Nueva ruta para eliminar veterinarios
+router.delete('/veterinarians/:id', deleteVeterinarian);
 
 module.exports = router;

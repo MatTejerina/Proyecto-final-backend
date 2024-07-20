@@ -4,7 +4,6 @@ const router = express.Router();
 
 router.post('/appointments', createAppointment);
 router.get('/appointments', getAllAppointments);
-// Ruta para obtener citas por veterinario y fecha
 router.get('/appointments/:veterinarianId/:date', getAppointmentsByVeterinarianAndDate);
 router.put('/appointments/:id', updateAppointment); 
 router.put('/appointments/:id/', updateAppointment);

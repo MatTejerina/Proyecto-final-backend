@@ -1,6 +1,5 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-// const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -10,15 +9,13 @@ const loginUser = async (request, response) => {
     const user = await User.findOne({ email });
     if (!user) return response.status(404).json({ message: 'User does not exist' })
 
-    const isMatch = bcrypt.compareSync(password, user.password); //dato que ingresa y el que esta almacenado
+    const isMatch = bcrypt.compareSync(password, user.password);
     if (!isMatch) return response.status(404).json({ massage: 'Invalid password' })
 
-    //En memoria de la app  
     const accessToken = jwt.sign({ id: user._id, fistName: user.firstName + user.lastName, isAdmin: user.isAdmin }, process.env.ACCESS_TOKEN_KEY, {
       expiresIn: '1h'
     });
 
-    //En una cookie de tipo httpOnly
     const refreshToken = jwt.sign({ id: user._id, fistName: user.firstName + user.lastName, isAdmin: user.isAdmin }, process.env.REFRESH_TOKEN_KEY, {
       expiresIn: '1d'
     });
@@ -26,7 +23,7 @@ const loginUser = async (request, response) => {
     user.refreshToken = refreshToken
     await user.save();
 
-    response.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })//Parametros:nombre de la cookie, que vamos a mandar(payload), configuraciones
+    response.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
     response.status(200).json({ accessToken });
 
   } catch (error) {
